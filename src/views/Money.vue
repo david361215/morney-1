@@ -1,21 +1,11 @@
 <template>
-  <div>
+  <Layout>
     Money
-    <Nav/>
-  </div>
+  </Layout>
 </template>
 
 <script lang="ts">
 export default {
-  name: 'Money',
-
-  setup() {
-      return {};
-  },
-
+  name: 'Money'
 }
 </script>
-
-<style lang="scss" scoped>
-
-</style>

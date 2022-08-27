@@ -1,19 +1,11 @@
 <template>
-  <div>
+  <Layout>
     Statistics
-    <Nav/>
-  </div>
+  </Layout>
 </template>
 
 <script lang="ts">
-export default {
-    setup() {
-        return {};
-    },
+  export default {
     name: 'Statistics',
-}
+  }
 </script>
-
-<style lang="scss" scoped>
-
-</style>
