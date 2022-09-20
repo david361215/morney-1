@@ -1,18 +1,28 @@
 <template>
   <Layout>
-    <div>
-      <Icon name="left" />
+    <div class="navBar">
+      <Icon class="leftIcon" name="left" />
       <span>编辑标签</span>
+    </div>
+    <div class="form-wrapper">
+      <FormItem field-name="标签名" placeholder="请输入标签名"/>
+    </div>
+    <div class="button-wrapper">
+      <Button>删除标签</Button>
     </div>
   </Layout>
 </template>
 
 <script lang="ts">
-  import tagListModel from '@/models/tagListModel';
   import Vue from 'vue';
   import { Component } from 'vue-property-decorator';
+  import tagListModel from '@/models/tagListModel';
+  import FormItem from '@/components/FormItem.vue';
+  import Button from '@/components/Button.vue';
 
-  @Component
+  @Component({
+    components: {FormItem, Button}
+  })
   export default class EditLabel extends Vue {
     created() {
       const id = this.$route.params.id;
@@ -29,5 +39,26 @@
 </script>
 
 <style lang="scss" scoped>
+  .navBar {
+    background: #fff;
+    line-height: 48px;
+    text-align: center;
+    position: relative;
+    > .leftIcon {
+      position: absolute;
+      left: 16px;
+      top: 12px;
+      width: 24px;
+      height: 24px;
+    }
+  }
+  .form-wrapper {
+    margin-top: 8px;
+    background: white;
+  }
+  .button-wrapper {
+    text-align: center;
+    margin-top: 44px;
+  }
 
 </style>

@@ -1,20 +1,22 @@
 <template>
   <div>
-    <label class="notes">
-      <span class="name">备注</span>
-      <input type="text" v-model="value" placeholder="在这里添加备注">
+    <label class="formItem">
+      <span class="name">{{this.fieldName}}</span>
+      <input type="text" v-model="value" :placeholder="this.placeholder">
     </label>
-  </div>    
+  </div>
 </template>
 
 <script lang="ts">
   import Vue from 'vue';
-  import {Component,Watch} from 'vue-property-decorator';
+  import {Component,Prop,Watch} from 'vue-property-decorator';
 
   @Component
-  export default class Notes extends Vue {
+  export default class FormItem extends Vue {
     value = '';
-
+    @Prop ({required: true}) fieldName!: string;
+    @Prop () placeholder?: string;
+    
     @Watch('value')
     onValueChanged(value:string){
       this.$emit('update:value',value)
@@ -23,18 +25,17 @@
 </script>
 
 <style lang="scss" scoped>
-  .notes {
+  .formItem {
     padding-left: 16px;
     display: flex;
     align-items: center;
     font-size: 14px;
-    background: #f5f5f5;
     .name {
       padding-right: 16px;
     }
     input {
       flex-grow: 1;
-      line-height: 64px;
+      line-height: 40px;
       padding-right: 16px;
       border: none;
       background: transparent;
