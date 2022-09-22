@@ -9,6 +9,7 @@
         :value="tag.name" 
         field-name="标签名" 
         placeholder="请输入标签名"
+        @update:value="update"
       />
     </div>
     <div class="button-wrapper">
@@ -42,6 +43,11 @@
       }
     }
 
+    update(name: string) {
+      if(this.tag) {
+        tagListModel.update(this.tag.id,name);
+      }
+    }
   }
 </script>
 
