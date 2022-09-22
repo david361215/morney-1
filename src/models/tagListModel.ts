@@ -5,6 +5,7 @@ type TagListModel = {
   fetch: () => Tag[],
   create: (name: string) => 'success' | 'duplicated',
   update: (id: string, name: string) => 'success' | 'duplicated' | 'not found',
+  remove: (id:string) => boolean,
   save: () => void
 }
 
@@ -38,6 +39,16 @@ const tagListModel: TagListModel = {
       }
     } else {
       return 'not found';
+    }
+  },
+  remove(id) {
+    const index = this.data.map(item => item.id).indexOf(id);
+    if( index >= 0) {
+      this.data.splice(index,1);
+      this.save();
+      return true;
+    } else {
+      return false;
     }
   }
 };
