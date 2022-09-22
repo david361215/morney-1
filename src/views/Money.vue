@@ -23,15 +23,12 @@ import FormItem from '@/components/FormItem.vue';
 import Tags from '@/components/Money/Tags.vue';
 
 import recordListModel from '@/models/recordListModel';
-import tagListModel from '@/models/tagListModel';
-
 
 @Component({
   components: { Tags, FormItem, Types, NumberPad }
 })
 export default class Money extends Vue {
-  tags = tagListModel.fetch();
-  recordList: RecordItem[] = recordListModel.fetch();
+  tags = window.tagList;
 
   record: RecordItem = {
     tags: [],
@@ -49,14 +46,7 @@ export default class Money extends Vue {
   }
 
   saveRecord() {
-    const record2: RecordItem = recordListModel.clone(this.record);
-    record2.createdAt = new Date();
-    this.recordList.push(record2);
-  }
-
-  @Watch('recordList')
-  onRecordListChanged() {
-    recordListModel.save(this.recordList);
+    recordListModel.create(this.record);
   }
 }
 </script>
