@@ -5,7 +5,7 @@
     </div>
     <ul class="current">
       <li 
-        v-for="tag in dataSource" :key="tag.id" 
+        v-for="tag in tags" :key="tag.id" 
         @click="toggle(tag.name)"
         :class="{ selected: selectedTags.indexOf(tag.name)>=0}">
         {{tag.name}}
@@ -21,8 +21,8 @@
 
   @Component
   export default class Tags extends Vue {
-    @Prop(Array) readonly dataSource: Tag[] | undefined;
     selectedTags: string[] = [];
+    tags = store.tagList;
 
     toggle(tag: string){
       const index = this.selectedTags.indexOf(tag);
@@ -38,6 +38,8 @@
       const name = window.prompt('请输入标签名');
       if (name) {
         store.createTag(name);
+      } else {
+        window.alert('标签名不能为空');
       }
     }
   }
