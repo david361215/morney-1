@@ -6,6 +6,7 @@ import store from './store';
 import Layout from '@/components/Layout.vue';
 import Icon from '@/components/Icon.vue';
 import tagListModel from '@/models/tagListModel';
+import recordListModel from '@/models/recordListModel';
 
 Vue.config.productionTip = false
 
@@ -34,6 +35,10 @@ window.updateTag = (id, name) => {
 window.findTag = (id) => {
   return window.tagList.filter(t => t.id === id)[0];
 }
+
+window.recordList = recordListModel.fetch();
+
+window.createRecord = (record) => recordListModel.create(record);
 
 new Vue({
   router,
