@@ -6,7 +6,7 @@
         type="text" 
         :value="value" 
         :placeholder="placeholder"
-        @input="$emit('update:value',$event.target.value)"
+        @input="$emit('update:value', $event.target.value)"
       >
     </label>
   </div>
