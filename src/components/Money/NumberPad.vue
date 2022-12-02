@@ -26,12 +26,15 @@
 
   @Component
   export default class NumberPad extends Vue {
-    @Prop() readonly value!: number;
+    @Prop(Number) readonly value!: number;
+    @Prop() validate!: Function;
     output = this.value.toString();
 
     inputContent(event: MouseEvent) {
       const button = (event.target as HTMLButtonElement);
       const input = button.textContent!;
+      const dotPosition = this.output.indexOf('.');
+      const subStringAfterDot = this.output.slice(dotPosition + 1)
       if(this.output.length === 16) { return; }
       if(this.output === '0') {
         if('0123456789'.indexOf(input) >= 0){
@@ -42,6 +45,7 @@
         return;
       }
       if( this.output.indexOf('.') >= 0 && input === '.') { return; }
+      if( this.output.indexOf('.') >= 0 && subStringAfterDot.length === 2) { return; }
       this.output += input;
     }
     remove() {
@@ -58,7 +62,10 @@
 
     ok(){
       this.$emit('update:value', parseFloat(this.output));
-      this.$emit('submit')
+      let submitResult = this.validate('submit');
+      if ( submitResult === "没选择标签" || submitResult === "金额不能为零" ){ 
+        return;
+      }
       this.output = '0';
     }
   }

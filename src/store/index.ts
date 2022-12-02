@@ -6,12 +6,6 @@ import createId from "@/lib/createId";
 
 Vue.use(Vuex)
 
-type RootState = {
-  tagList: Tag[],
-  recordList: RecordItem[],
-  currentTag?: Tag
-}
-
 const store = new Vuex.Store({
   state: {
     tagList: [],
@@ -20,8 +14,19 @@ const store = new Vuex.Store({
   } as RootState,
 
   mutations: {
+    addDefaultTags(state) {
+      const defaultTags = ['衣','食','住','行'];
+      for( let i = 0; i < defaultTags.length; i++ ){
+        const id = createId().toString();
+        state.tagList.push({id: id, name: defaultTags[i]});
+      }
+      store.commit('saveTags');
+    },
     fetchTags(state) {
       state.tagList = JSON.parse(window.localStorage.getItem('tagList') || '[]');
+      if( state.tagList.length == 0 ) {
+        store.commit('addDefaultTags');
+      }
     },
     saveTags(state) {
       window.localStorage.setItem('tagList',JSON.stringify(state.tagList));
@@ -35,11 +40,12 @@ const store = new Vuex.Store({
       const names = state.tagList.map(item => item.name);
       if (names.indexOf(name) >= 0) {
         window.alert('标签名重复了');
+      } else {
+        const id = createId().toString();
+        state.tagList.push({id, name: name});
+        store.commit('saveTags');
+        window.alert('添加成功');
       }
-      const id = createId().toString();
-      state.tagList.push({id, name: name});
-      store.commit('saveTags');
-      window.alert('添加成功');
     },
     removeTag(state, id: string) {
       const index = state.tagList.map(item => item.id).indexOf(id);
@@ -72,11 +78,12 @@ const store = new Vuex.Store({
     saveRecords(state) {
       window.localStorage.setItem('recordList',JSON.stringify(state.recordList));
     },
-    createRecord(state, record) {
-      const record2: RecordItem = clone(record);
-      record2.createdAt = new Date();
+    createRecord(state, record: RecordItem) {
+      const record2 = clone(record);
+      record2.createdAt = new Date().toISOString();
       state.recordList.push(record2);
       store.commit('saveRecords');
+      window.alert('创建成功');
     }
   }
 })
